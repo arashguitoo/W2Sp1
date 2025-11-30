@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spieltag 3 – Reden wir darüber!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            animation: move 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+        
+        .bg-animation span:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+        .bg-animation span:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .bg-animation span:nth-child(3) { left: 30%; width: 60px; height: 60px; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 40%; width: 40px; height: 40px; animation-delay: 0s; animation-duration: 18s; }
+        .bg-animation span:nth-child(5) { left: 50%; width: 70px; height: 70px; animation-delay: 0s; }
+        .bg-animation span:nth-child(6) { left: 60%; width: 30px; height: 30px; animation-delay: 3s; }
+        .bg-animation span:nth-child(7) { left: 70%; width: 50px; height: 50px; animation-delay: 7s; }
+        .bg-animation span:nth-child(8) { left: 80%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .bg-animation span:nth-child(9) { left: 90%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .bg-animation span:nth-child(10) { left: 5%; width: 90px; height: 90px; animation-delay: 0s; animation-duration: 11s; }
+        
+        @keyframes move {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1200px) rotate(720deg); opacity: 0; }
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7, #f107a3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(123, 47, 247, 0.3);
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #a0a0c0;
+            font-weight: 600;
+        }
+        
+        /* Screens */
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Start Screen */
+        .start-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 24px;
+            padding: 30px 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 20px;
+        }
+        
+        .name-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .name-input:focus {
+            outline: none;
+            border-color: #7b2ff7;
+            background: rgba(123, 47, 247, 0.1);
+        }
+        
+        .name-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        /* Liga Selection */
+        .liga-grid {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .liga-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            text-align: left;
+        }
+        
+        .liga-btn:hover {
+            transform: translateX(8px);
+        }
+        
+        .liga-btn.silver {
+            background: linear-gradient(135deg, #c0c0c0, #808080);
+            color: #1a1a2e;
+        }
+        
+        .liga-btn.gold {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+        }
+        
+        .liga-btn.diamond {
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            color: #fff;
+        }
+        
+        .liga-icon {
+            font-size: 2rem;
+        }
+        
+        .liga-info {
+            flex: 1;
+        }
+        
+        .liga-name {
+            display: block;
+        }
+        
+        .liga-desc {
+            font-size: 0.8rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        /* Rules */
+        .rules-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .rules-title {
+            font-size: 1rem;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .rules-list {
+            font-size: 0.9rem;
+            color: #a0a0c0;
+            line-height: 1.8;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            height: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7, #f107a3);
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #a0a0c0;
+            margin-bottom: 10px;
+        }
+        
+        /* Task Card */
+        .task-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 24px;
+            padding: 25px 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .task-number {
+            font-size: 0.85rem;
+            color: #7b2ff7;
+            font-weight: 700;
+            background: rgba(123, 47, 247, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        
+        .task-type {
+            font-size: 0.8rem;
+            color: #00d4ff;
+        }
+        
+        .task-question {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .task-hint {
+            font-size: 0.9rem;
+            color: #a0a0c0;
+            background: rgba(255,255,255,0.05);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 3px solid #7b2ff7;
+        }
+        
+        /* Multiple Choice */
+        .mc-options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .mc-btn {
+            padding: 16px 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            text-align: left;
+        }
+        
+        .mc-btn:hover:not(.disabled) {
+            border-color: #7b2ff7;
+            background: rgba(123, 47, 247, 0.2);
+        }
+        
+        .mc-btn.correct {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+            animation: pulse 0.5s;
+        }
+        
+        .mc-btn.wrong {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.2);
+            animation: shake 0.5s;
+        }
+        
+        .mc-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Fill Blanks */
+        .fill-sentence {
+            font-size: 1.1rem;
+            line-height: 2;
+            margin-bottom: 15px;
+        }
+        
+        .fill-input {
+            width: 150px;
+            padding: 8px 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+        }
+        
+        .fill-input:focus {
+            outline: none;
+            border-color: #7b2ff7;
+        }
+        
+        .fill-input.correct {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+        }
+        
+        .fill-input.wrong {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.2);
+        }
+        
+        /* Word Bank */
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            min-height: 50px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+        }
+        
+        .word-chip {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .word-chip:hover {
+            transform: scale(1.05);
+        }
+        
+        .word-chip.selected {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        /* Answer Area */
+        .answer-area {
+            min-height: 60px;
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .answer-chip {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .answer-chip:hover {
+            transform: scale(0.95);
+        }
+        
+        /* Ordering */
+        .order-items {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 14px;
+            border: 2px solid rgba(255,255,255,0.1);
+            cursor: grab;
+            transition: all 0.3s;
+        }
+        
+        .order-item:active {
+            cursor: grabbing;
+        }
+        
+        .order-item.selected {
+            border-color: #7b2ff7;
+            background: rgba(123, 47, 247, 0.2);
+        }
+        
+        .order-num {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .order-text {
+            flex: 1;
+            font-size: 1rem;
+        }
+        
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 15px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(123, 47, 247, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Feedback */
+        .feedback {
+            padding: 15px 20px;
+            border-radius: 14px;
+            margin-top: 15px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .feedback.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid #00ff88;
+            color: #00ff88;
+        }
+        
+        .feedback.wrong {
+            background: rgba(255, 71, 87, 0.2);
+            border: 2px solid #ff4757;
+            color: #ff4757;
+        }
+        
+        /* Next Button */
+        .next-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            color: #1a1a2e;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .next-btn.show {
+            display: block;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Certificate */
+        .cert-container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .cert-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border-radius: 24px;
+            padding: 30px 20px;
+            backdrop-filter: blur(10px);
+            border: 3px solid;
+        }
+        
+        .cert-card.silver { border-color: #c0c0c0; }
+        .cert-card.gold { border-color: #ffd700; }
+        .cert-card.diamond { border-color: #00d4ff; }
+        
+        .cert-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        .cert-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .cert-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .cert-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .cert-stat {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+        }
+        
+        .cert-stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #7b2ff7;
+        }
+        
+        .cert-stat-label {
+            font-size: 0.85rem;
+            color: #a0a0c0;
+        }
+        
+        .cert-date {
+            font-size: 0.9rem;
+            color: #a0a0c0;
+            margin-top: 20px;
+        }
+        
+        .download-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 20px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .restart-btn {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 16px;
+            background: transparent;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            margin-top: 12px;
+        }
+        
+        .restart-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Matching Exercise */
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .match-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .match-item {
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        
+        .match-item:hover:not(.matched):not(.disabled) {
+            border-color: #7b2ff7;
+            background: rgba(123, 47, 247, 0.2);
+        }
+        
+        .match-item.selected {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.2);
+        }
+        
+        .match-item.matched {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.15);
+            opacity: 0.7;
+        }
+        
+        .match-item.wrong-match {
+            animation: shake 0.5s;
+            border-color: #ff4757;
+        }
+        
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .home-btn:hover {
+            background: rgba(255,71,87,0.3);
+            border-color: #ff4757;
+            transform: scale(1.1);
+        }
+        
+        .home-btn.hidden {
+            display: none;
+        }
+        
+        /* Text Reading Box */
+        .text-box {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .text-content {
+            font-size: 1rem;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        .text-content b {
+            color: #00d4ff;
+        }
+        
+        .text-instruction {
+            font-size: 0.95rem;
+            color: #a0a0c0;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        /* Text wieder anzeigen Button */
+        .show-text-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            border-radius: 20px;
+            color: #00d4ff;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+            margin-bottom: 15px;
+        }
+        
+        .show-text-btn:hover {
+            background: rgba(0, 212, 255, 0.3);
+            transform: scale(1.02);
+        }
+        
+        /* Text Popup/Modal */
+        .text-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .text-modal.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .text-modal-content {
+            max-width: 600px;
+            margin: 20px auto;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #00d4ff;
+            position: relative;
+        }
+        
+        .text-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,71,87,0.2);
+            border: 1px solid #ff4757;
+            color: #ff4757;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .text-modal-close:hover {
+            background: rgba(255,71,87,0.4);
+        }
+        
+        .text-modal-title {
+            color: #00d4ff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-right: 40px;
+        }
+        
+        .text-modal-body {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        .text-modal-body b {
+            color: #00d4ff;
+        }
+        
+        /* Hidden Canvas for Certificate */
+        #certCanvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    
+    <div class="container">
+        <!-- Home Button -->
+        <button class="home-btn hidden" id="homeBtn" onclick="confirmHome()" title="Zurück zum Start">
+            🏠
+        </button>
+        
+        <header class="header">
+            <h1 class="title">Spieltag 3</h1>
+            <p class="subtitle">Reden wir darüber! 🗣️</p>
+        </header>
+        
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <div class="start-card">
+                <input type="text" id="playerName" class="name-input" placeholder="Dein Name...">
+                
+                <div class="liga-grid">
+                    <button class="liga-btn silver" onclick="startGame('silver')">
+                        <span class="liga-icon">🥈</span>
+                        <span class="liga-info">
+                            <span class="liga-name">Silber Liga</span>
+                            <span class="liga-desc">Mit Hilfestellung • 40 Aufgaben</span>
+                        </span>
+                    </button>
+                    <button class="liga-btn gold" onclick="startGame('gold')">
+                        <span class="liga-icon">🥇</span>
+                        <span class="liga-info">
+                            <span class="liga-name">Gold Liga</span>
+                            <span class="liga-desc">Ohne Hilfe • 40 Aufgaben</span>
+                        </span>
+                    </button>
+                    <button class="liga-btn diamond" onclick="startGame('diamond')">
+                        <span class="liga-icon">💎</span>
+                        <span class="liga-info">
+                            <span class="liga-name">Diamant Liga</span>
+                            <span class="liga-desc">Selbst schreiben • 40 Aufgaben</span>
+                        </span>
+                    </button>
+                </div>
+                
+                <div class="rules-box">
+                    <div class="rules-title">📋 Spielregeln</div>
+                    <div class="rules-list">
+                        ✓ Falsche Antworten kommen ans Ende<br>
+                        ✓ Richtig beim 1. Versuch = 2 Punkte<br>
+                        ✓ Richtig beim 2. Versuch = 1 Punkt<br>
+                        ✓ <b>Bestehen: mindestens 75% (60 von 80 Punkten)</b><br>
+                        ✓ Am Ende: Zertifikat zum Download
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="progress-text">
+                <span id="progressText">Aufgabe 1 von 40</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" style="width: 2.5%"></div>
+            </div>
+            
+            <div class="task-card" id="taskCard">
+                <!-- Task content loaded dynamically -->
+            </div>
+        </div>
+        
+        <!-- Certificate Screen -->
+        <div id="certScreen" class="screen">
+            <div class="cert-container">
+                <div class="cert-card" id="certCard">
+                    <div class="cert-icon" id="certIcon">🏆</div>
+                    <div class="cert-title">Spieltag 3 bestanden!</div>
+                    <div class="cert-name" id="certName">Name</div>
+                    
+                    <div class="cert-stats">
+                        <div class="cert-stat">
+                            <div class="cert-stat-value" id="certPoints">0</div>
+                            <div class="cert-stat-label">Punkte</div>
+                        </div>
+                        <div class="cert-stat">
+                            <div class="cert-stat-value" id="certPercent">0%</div>
+                            <div class="cert-stat-label">Erfolg</div>
+                        </div>
+                        <div class="cert-stat">
+                            <div class="cert-stat-value" id="certLiga">Silber</div>
+                            <div class="cert-stat-label">Liga</div>
+                        </div>
+                        <div class="cert-stat">
+                            <div class="cert-stat-value" id="certTasks">40</div>
+                            <div class="cert-stat-label">Aufgaben</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-date" id="certDate"></div>
+                </div>
+                
+                <button class="download-btn" onclick="downloadCertificate()">
+                    📥 Zertifikat herunterladen
+                </button>
+                <button class="restart-btn" onclick="restartGame()">
+                    🔄 Nochmal spielen
+                </button>
+            </div>
+        </div>
+    <!-- Text Modal -->
+        <div class="text-modal" id="textModal" onclick="closeTextModal(event)">
+            <div class="text-modal-content" onclick="event.stopPropagation()">
+                <button class="text-modal-close" onclick="closeTextModal()">&times;</button>
+                <div class="text-modal-title" id="textModalTitle"></div>
+                <div class="text-modal-body" id="textModalBody"></div>
+            </div>
+        </div>
+    </div>
+    
+    <canvas id="certCanvas" width="800" height="600"></canvas>
+    
+    <!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://aguitoo.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    
+    <script>
+        // ========== GAME STATE ==========
+        let playerName = '';
+        let currentLiga = 'silver';
+        let tasks = [];
+        let currentTaskIndex = 0;
+        let completedTasks = 0;
+        let totalPoints = 0;
+        let attempts = {};
+        let selectedOrderItem = null;
+        let matchSelected = null;
+        let matchedPairs = 0;
+        let currentText = null; // Speichert den aktuellen Text für Rückblick
+        
+        // Text Modal Funktionen
+        function showTextModal() {
+            if (currentText) {
+                document.getElementById('textModalTitle').textContent = currentText.title;
+                document.getElementById('textModalBody').innerHTML = currentText.text;
+                document.getElementById('textModal').classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeTextModal(event) {
+            if (!event || event.target === document.getElementById('textModal')) {
+                document.getElementById('textModal').classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // ========== TASK DEFINITIONS ==========
+        
+        // SILBER LIGA - 40 Aufgaben (Mit Hilfestellung)
+        const silverTasks = [
+            // TEXT 1: Dialog bei einer Einladung (Aufgaben 1-6)
+            {
+                type: 'text',
+                title: '📖 Text 1: Bei Marias Einladung',
+                text: `Maria hat Geburtstag und lädt ihre Freunde zum Essen ein. 
+                
+<b>Lisa:</b> Hallo Maria! Hier, die Blumen sind für dich!
+<b>Maria:</b> Oh, danke! Das ist aber nett. Komm rein! Soll ich dir etwas zu trinken bringen?
+<b>Lisa:</b> Ja, gern. Ein Wasser, bitte.
+<b>Maria:</b> Setz dich doch. Das Essen ist gleich fertig. Es gibt Pasta.
+<b>Lisa:</b> Mmm, das riecht so lecker! Ich freue mich schon darauf.
+<b>Maria:</b> Ich hoffe, es schmeckt dir. Ich habe ein neues Rezept ausprobiert.
+<b>Lisa:</b> Bestimmt! Du kochst immer so gut.
+<b>Maria:</b> Guten Appetit!
+<b>Lisa:</b> Danke, dir auch! ... Mmm, köstlich! Ich muss mich bei dir bedanken.
+<b>Maria:</b> Freut mich! Möchtest du noch mehr?
+<b>Lisa:</b> Nein, danke. Ich kann nicht mehr. Ich bin satt.`,
+                instruction: 'Lies den Dialog und beantworte dann die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Was bringt Lisa mit?',
+                options: ['Blumen', 'Wein', 'Kuchen', 'Schokolade'],
+                correct: 0,
+                hint: 'Am Anfang des Dialogs'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Was gibt es zu essen?',
+                options: ['Pasta', 'Pizza', 'Suppe', 'Salat'],
+                correct: 0,
+                hint: 'Maria sagt es'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Worauf freut sich Lisa?',
+                options: ['Auf das Essen', 'Auf die Party', 'Auf die Musik', 'Auf den Kuchen'],
+                correct: 0,
+                hint: 'Sie sagt: Ich freue mich schon...'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Möchte Lisa noch mehr essen?',
+                options: ['Nein, sie ist satt', 'Ja, sehr gern', 'Ja, ein bisschen', 'Sie weiß es nicht'],
+                correct: 0,
+                hint: 'Am Ende des Dialogs'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 1: Ergänze den Satz aus dem Dialog!',
+                sentence: 'Ich freue _____ schon darauf.',
+                words: ['mich', 'dich', 'sich', 'uns'],
+                correct: 'mich',
+                hint: 'Lisa spricht (ich)'
+            },
+            // TEXT 2: Anmeldung im Fitnessstudio (Aufgaben 7-13)
+            {
+                type: 'text',
+                title: '📖 Text 2: Im Fitnessstudio',
+                text: `<b>Rezeption:</b> Guten Tag! Kann ich Ihnen helfen?
+<b>Herr Weber:</b> Ja, ich interessiere mich für eine Mitgliedschaft. Können Sie mir etwas darüber erzählen?
+<b>Rezeption:</b> Natürlich! Wofür interessieren Sie sich? Wir haben Kurse für Yoga, Spinning und Krafttraining.
+<b>Herr Weber:</b> Ich möchte mich fit halten. Besonders interessiere ich mich für Krafttraining.
+<b>Rezeption:</b> Sehr gut! Dafür haben wir tolle Geräte. Treiben Sie schon Sport?
+<b>Herr Weber:</b> Ja, ich jogge zweimal pro Woche, aber ich ärgere mich darüber, dass ich keine Muskeln aufbaue.
+<b>Rezeption:</b> Verstehe. Mit unserem Training freuen Sie sich bald über Ergebnisse!
+<b>Herr Weber:</b> Das klingt gut. Wann kann ich anfangen?
+<b>Rezeption:</b> Sie können sich heute noch anmelden. Dann können Sie sich morgen schon auf das erste Training freuen!`,
+                instruction: 'Lies den Dialog und beantworte die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 2: Wofür interessiert sich Herr Weber?',
+                options: ['Für Krafttraining', 'Für Yoga', 'Für Spinning', 'Für Schwimmen'],
+                correct: 0,
+                hint: 'Er sagt es direkt'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 2: Worüber ärgert sich Herr Weber?',
+                options: ['Dass er keine Muskeln aufbaut', 'Dass das Studio teuer ist', 'Dass er keine Zeit hat', 'Dass er nicht joggen kann'],
+                correct: 0,
+                hint: 'Er joggt, aber...'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 2: Wie oft joggt Herr Weber?',
+                options: ['Zweimal pro Woche', 'Jeden Tag', 'Einmal pro Woche', 'Dreimal pro Woche'],
+                correct: 0,
+                hint: 'Er sagt die Häufigkeit'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 2: Ergänze!',
+                sentence: 'Ich interessiere _____ für eine Mitgliedschaft.',
+                words: ['mich', 'dich', 'sich', 'euch'],
+                correct: 'mich',
+                hint: 'Herr Weber spricht (ich)'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 2: Ergänze das Präpositionaladverb!',
+                sentence: 'Können Sie mir etwas _____ erzählen? (über die Mitgliedschaft)',
+                words: ['darüber', 'dafür', 'damit', 'davon'],
+                correct: 'darüber',
+                hint: 'erzählen ÜBER → da+r+über'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 2: Ergänze das Präpositionaladverb!',
+                sentence: '_____ haben wir tolle Geräte. (für Krafttraining)',
+                words: ['Dafür', 'Darauf', 'Damit', 'Davon'],
+                correct: 'Dafür',
+                hint: 'FÜR Krafttraining → da+für'
+            },
+            // TEXT 3: E-Mail über Hobbys (Aufgaben 14-20)
+            {
+                type: 'text',
+                title: '📖 Text 3: E-Mail von Tom',
+                text: `<b>Von:</b> tom.mueller@email.de
+<b>An:</b> sara.klein@email.de
+<b>Betreff:</b> Meine Hobbys
+
+Hallo Sara,
+
+danke für deine E-Mail! Du fragst mich nach meinen Hobbys. Also, ich interessiere mich sehr für Musik. Ich spiele Gitarre und träume davon, in einer Band zu spielen. 
+
+Am Wochenende treffe ich mich oft mit Freunden. Wir verabreden uns meistens für Samstagnachmittag. Dann spielen wir Fußball oder wir unterhalten uns einfach.
+
+Ich ärgere mich manchmal darüber, dass ich so wenig Zeit habe. Die Arbeit ist stressig. Aber ich freue mich immer auf das Wochenende!
+
+Wofür interessierst du dich? Schreib mir bald!
+
+Liebe Grüße
+Tom`,
+                instruction: 'Lies die E-Mail und beantworte die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Wofür interessiert sich Tom?',
+                options: ['Für Musik', 'Für Sport', 'Für Kochen', 'Für Filme'],
+                correct: 0,
+                hint: 'Er schreibt es am Anfang'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Wovon träumt Tom?',
+                options: ['In einer Band zu spielen', 'Eine Weltreise zu machen', 'Ein Haus zu kaufen', 'Profi-Fußballer zu werden'],
+                correct: 0,
+                hint: 'Er spielt Gitarre und träumt...'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Wann trifft sich Tom mit Freunden?',
+                options: ['Samstagnachmittag', 'Sonntagmorgen', 'Freitagabend', 'Jeden Tag'],
+                correct: 0,
+                hint: 'Am Wochenende, meistens...'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Worüber ärgert sich Tom manchmal?',
+                options: ['Dass er wenig Zeit hat', 'Dass seine Freunde keine Zeit haben', 'Dass er nicht gut Gitarre spielt', 'Dass das Wetter schlecht ist'],
+                correct: 0,
+                hint: 'Die Arbeit ist stressig...'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 3: Ergänze!',
+                sentence: 'Ich träume _____, in einer Band zu spielen.',
+                words: ['davon', 'daran', 'darauf', 'dafür'],
+                correct: 'davon',
+                hint: 'träumen VON → da+von'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 3: Ergänze!',
+                sentence: 'Wir verabreden _____ für Samstag.',
+                words: ['uns', 'mich', 'sich', 'euch'],
+                correct: 'uns',
+                hint: 'wir verabreden...'
+            },
+            // TEXT 4: Restaurant-Dialog (Aufgaben 21-26)
+            {
+                type: 'text',
+                title: '📖 Text 4: Im Restaurant',
+                text: `<b>Gast:</b> Entschuldigung, ist hier noch frei?
+<b>Mann:</b> Ja, setzen Sie sich doch!
+<b>Gast:</b> Danke, sehr nett.
+
+(Der Kellner kommt)
+
+<b>Kellner:</b> Guten Abend! Was darf ich Ihnen bringen?
+<b>Gast:</b> Ich möchte bitte die Karte haben.
+<b>Kellner:</b> Hier, bitte.
+<b>Gast:</b> Danke... Ich nehme die Tomatensuppe und danach den Fisch.
+<b>Kellner:</b> Sehr gern. Und zu trinken?
+<b>Gast:</b> Ein Mineralwasser, bitte.
+
+(Später)
+
+<b>Gast:</b> Entschuldigung, aber die Suppe ist leider viel zu salzig.
+<b>Kellner:</b> Oh, das tut mir leid! Ich bringe sofort eine neue.
+<b>Gast:</b> Danke.
+
+(Nach dem Essen)
+
+<b>Gast:</b> Kann ich bitte bezahlen?
+<b>Kellner:</b> Ja, das macht 24,50 Euro.
+<b>Gast:</b> Hier bitte, 27 Euro. Stimmt so.
+<b>Kellner:</b> Vielen Dank! Einen schönen Abend noch!`,
+                instruction: 'Lies den Dialog und beantworte die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 4: Was bestellt der Gast?',
+                options: ['Tomatensuppe und Fisch', 'Salat und Steak', 'Suppe und Pasta', 'Pizza und Salat'],
+                correct: 0,
+                hint: 'Er sagt: Ich nehme...'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 4: Was ist das Problem mit der Suppe?',
+                options: ['Sie ist zu salzig', 'Sie ist kalt', 'Sie ist zu scharf', 'Sie schmeckt nicht'],
+                correct: 0,
+                hint: 'Der Gast reklamiert'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 4: Wie viel Trinkgeld gibt der Gast?',
+                options: ['2,50 Euro', '3 Euro', '5 Euro', 'Kein Trinkgeld'],
+                correct: 0,
+                hint: '27 Euro minus 24,50 Euro'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 4: Was sagt man, wenn man Trinkgeld gibt?',
+                options: ['Stimmt so', 'Danke schön', 'Auf Wiedersehen', 'Guten Appetit'],
+                correct: 0,
+                hint: 'Der Gast sagt es beim Bezahlen'
+            },
+            {
+                type: 'fillbank',
+                question: '📖 Text 4: Was fragt man, wenn man sich setzen will?',
+                sentence: 'Ist hier noch _____?',
+                words: ['frei', 'Platz', 'gut', 'offen'],
+                correct: 'frei',
+                hint: 'Am Anfang des Dialogs'
+            },
+            // 27-32: Multiple Choice - Reflexivpronomen
+            {
+                type: 'mc',
+                question: 'Ich _____ mich jeden Morgen.',
+                options: ['wasche', 'wäschst', 'wascht', 'wäscht'],
+                correct: 0,
+                hint: 'Verb: sich waschen (ich)'
+            },
+            {
+                type: 'mc',
+                question: 'Du _____ dich für Fußball, oder?',
+                options: ['interessierst', 'interessiere', 'interessiert', 'interessieren'],
+                correct: 0,
+                hint: 'Verb: sich interessieren für (du)'
+            },
+            {
+                type: 'mc',
+                question: 'Wir _____ uns auf die Party.',
+                options: ['freuen', 'freut', 'freue', 'freust'],
+                correct: 0,
+                hint: 'Verb: sich freuen auf (wir)'
+            },
+            // 29-32: Präpositionaladverbien
+            {
+                type: 'mc',
+                question: 'Ich interessiere mich für Musik. — Ich interessiere mich _____.',
+                options: ['dafür', 'darauf', 'daran', 'darüber'],
+                correct: 0,
+                hint: 'sich interessieren FÜR → da+für'
+            },
+            {
+                type: 'mc',
+                question: 'Wir warten auf den Bus. — Wir warten _____.',
+                options: ['darauf', 'dafür', 'damit', 'davon'],
+                correct: 0,
+                hint: 'warten AUF → da+r+auf'
+            },
+            {
+                type: 'mc',
+                question: 'Er denkt an seine Familie. — Er denkt _____.',
+                options: ['daran', 'darauf', 'darüber', 'davon'],
+                correct: 0,
+                hint: 'denken AN → da+r+an'
+            },
+            {
+                type: 'mc',
+                question: 'Sie träumt von einer Reise. — Sie träumt _____.',
+                options: ['davon', 'daran', 'darauf', 'dafür'],
+                correct: 0,
+                hint: 'träumen VON → da+von'
+            },
+            // 33-36: Fragewörter
+            {
+                type: 'mc',
+                question: '_____ interessierst du dich? — Für Sport.',
+                options: ['Wofür', 'Worauf', 'Womit', 'Wovon'],
+                correct: 0,
+                hint: 'sich interessieren FÜR → wo+für'
+            },
+            {
+                type: 'mc',
+                question: '_____ wartest du? — Auf meinen Bruder.',
+                options: ['Auf wen', 'Worauf', 'An wen', 'Mit wem'],
+                correct: 0,
+                hint: 'Bei PERSONEN: Präposition + wen/wem'
+            },
+            {
+                type: 'mc',
+                question: '_____ denkst du? — An meine Mutter.',
+                options: ['An wen', 'Woran', 'Auf wen', 'Von wem'],
+                correct: 0,
+                hint: 'denken AN + Person → An wen?'
+            },
+            {
+                type: 'mc',
+                question: '_____ telefonierst du? — Mit meiner Freundin.',
+                options: ['Mit wem', 'Womit', 'Von wem', 'An wen'],
+                correct: 0,
+                hint: 'telefonieren MIT + Person → Mit wem?'
+            },
+            // 37-40: Satz ordnen
+            {
+                type: 'order',
+                question: 'Bringe den Satz in die richtige Reihenfolge!',
+                words: ['Ich', 'interessiere', 'mich', 'für', 'Sport'],
+                correct: ['Ich', 'interessiere', 'mich', 'für', 'Sport'],
+                hint: 'Subjekt + Verb + Reflexivpronomen + Präposition + Objekt'
+            },
+            {
+                type: 'order',
+                question: 'Bringe den Satz in die richtige Reihenfolge!',
+                words: ['du', 'Wofür', 'dich', 'interessierst', '?'],
+                correct: ['Wofür', 'interessierst', 'du', 'dich', '?'],
+                hint: 'Fragewort + Verb + Subjekt + Reflexivpronomen'
+            },
+            {
+                type: 'order',
+                question: 'Bringe den Satz in die richtige Reihenfolge!',
+                words: ['freut', 'Er', 'darauf', 'sich'],
+                correct: ['Er', 'freut', 'sich', 'darauf'],
+                hint: 'Subjekt + Verb + Reflexivpronomen + Adverb'
+            },
+            {
+                type: 'order',
+                question: 'Bringe den Satz in die richtige Reihenfolge!',
+                words: ['Mit', 'telefonierst', 'du', 'wem', '?'],
+                correct: ['Mit', 'wem', 'telefonierst', 'du', '?'],
+                hint: 'Präposition + wem + Verb + Subjekt'
+            }
+        ];
+        
+        // GOLD LIGA - 40 Aufgaben (Ohne Hilfe)
+        const goldTasks = [
+            // TEXT 1: Sportverein Anmeldung (Aufgaben 1-7)
+            {
+                type: 'text',
+                title: '📖 Text 1: Anmeldung beim Sportverein',
+                text: `Liebe Mitglieder,
+
+unser Sportverein bietet ab September neue Kurse an! 
+
+<b>Yoga für Anfänger</b> – Montag, 18:00 Uhr
+Sie fühlen sich gestresst? Dann ist Yoga perfekt für Sie! In diesem Kurs lernen Sie, sich zu entspannen.
+
+<b>Fußball für Jugendliche</b> – Mittwoch, 16:00 Uhr  
+Du interessierst dich für Fußball? Dann melde dich an! Wir freuen uns auf dich.
+
+<b>Schwimmen für Senioren</b> – Freitag, 10:00 Uhr
+Bewegen Sie sich regelmäßig! Schwimmen ist gut für den Körper.
+
+Anmeldung: im Sekretariat oder online unter www.sportverein-muster.de
+Kosten: 15 Euro pro Monat (Ermäßigung für Schüler und Studenten: 10 Euro)
+
+Bei Fragen können Sie sich an uns wenden. Wir kümmern uns gern um Ihre Anliegen!
+
+Ihr Sportverein-Team`,
+                instruction: 'Lies die Ankündigung und beantworte die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Wann ist der Yoga-Kurs?',
+                options: ['Montag, 18:00 Uhr', 'Mittwoch, 16:00 Uhr', 'Freitag, 10:00 Uhr', 'Samstag, 14:00 Uhr'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Für wen ist der Fußball-Kurs?',
+                options: ['Für Jugendliche', 'Für Senioren', 'Für Anfänger', 'Für alle'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 1: Wie viel kostet der Kurs für Studenten?',
+                options: ['10 Euro', '15 Euro', '20 Euro', 'Kostenlos'],
+                correct: 0
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 1: Ergänze! Sie fühlen _____ gestresst?',
+                sentence: 'Sie fühlen _____ gestresst?',
+                correct: ['sich']
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 1: Ergänze! Du interessierst _____ für Fußball?',
+                sentence: 'Du interessierst _____ für Fußball?',
+                correct: ['dich']
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 1: Ergänze! Wir kümmern _____ gern um Ihre Anliegen.',
+                sentence: 'Wir kümmern _____ gern um Ihre Anliegen.',
+                correct: ['uns']
+            },
+            // TEXT 2: WhatsApp-Chat (Aufgaben 8-14)
+            {
+                type: 'text',
+                title: '📖 Text 2: WhatsApp-Chat',
+                text: `<b>Gruppe: Klassentreffen 2024</b>
+
+<b>Anna:</b> Hey Leute! Ich freue mich so auf unser Treffen! 🎉
+<b>Max:</b> Ich auch! Worauf freust du dich am meisten?
+<b>Anna:</b> Darauf, euch alle wiederzusehen! 
+<b>Lisa:</b> Woran erinnert ihr euch noch von der Schulzeit?
+<b>Max:</b> An die lustigen Pausen 😂 Und du?
+<b>Lisa:</b> Ich erinnere mich daran, wie wir immer zusammen gelernt haben.
+<b>Anna:</b> Ja! Und wir haben uns immer über die Hausaufgaben geärgert 😅
+<b>Max:</b> Haha, darüber ärgere ich mich heute noch! 
+<b>Lisa:</b> Worüber redet ihr eigentlich? Das war doch schön!
+<b>Anna:</b> Stimmt! Ich bin gespannt auf Samstag!
+<b>Max:</b> Bis dann! 👋`,
+                instruction: 'Lies den Chat und beantworte die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 2: Worauf freut sich Anna?',
+                options: ['Alle wiederzusehen', 'Das Essen', 'Die Musik', 'Die Geschenke'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 2: Woran erinnert sich Max?',
+                options: ['An die lustigen Pausen', 'An die Prüfungen', 'An den Sport', 'An die Lehrer'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 2: Worüber haben sie sich früher geärgert?',
+                options: ['Über die Hausaufgaben', 'Über die Lehrer', 'Über das Essen', 'Über die Noten'],
+                correct: 0
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 2: Ergänze! Ich freue mich so _____ unser Treffen!',
+                sentence: 'Ich freue mich so _____ unser Treffen!',
+                correct: ['auf']
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 2: Ergänze! _____ erinnert ihr euch noch?',
+                sentence: '_____ erinnert ihr euch noch?',
+                correct: ['Woran']
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 2: Ergänze! _____ ärgere ich mich heute noch.',
+                sentence: '_____ ärgere ich mich heute noch.',
+                correct: ['Darüber']
+            },
+            // TEXT 3: Restaurantkritik (Aufgaben 15-21)
+            {
+                type: 'text',
+                title: '📖 Text 3: Restaurantbewertung',
+                text: `<b>⭐⭐⭐ Restaurant "Bella Italia" - 3 von 5 Sternen</b>
+
+Gestern war ich mit meiner Freundin im "Bella Italia". Wir hatten uns auf einen schönen Abend gefreut, aber leider war nicht alles perfekt.
+
+<b>Das Positive:</b> Die Pasta war lecker! Der Koch interessiert sich offensichtlich für gute Zutaten. Darüber haben wir uns gefreut. Das Ambiente war auch gemütlich.
+
+<b>Das Negative:</b> Wir mussten 30 Minuten auf das Essen warten. Darüber habe ich mich geärgert. Als das Essen kam, war die Suppe kalt. Ich habe mich beim Kellner beschwert. Er hat sich dafür entschuldigt und eine neue gebracht.
+
+<b>Fazit:</b> Das Restaurant hat Potenzial, aber der Service muss sich verbessern. Ich bin mir nicht sicher, ob ich mich für einen zweiten Besuch entscheide.
+
+<b>Bewertung von:</b> Maria K.`,
+                instruction: 'Lies die Bewertung und beantworte die Fragen!'
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Wie viele Sterne hat das Restaurant bekommen?',
+                options: ['3 von 5', '5 von 5', '2 von 5', '4 von 5'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Worüber hat sich Maria gefreut?',
+                options: ['Über die guten Zutaten', 'Über den schnellen Service', 'Über den Preis', 'Über das Getränk'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Worüber hat sich Maria geärgert?',
+                options: ['Über die Wartezeit', 'Über das Essen', 'Über die Preise', 'Über den Koch'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '📖 Text 3: Was war das Problem mit der Suppe?',
+                options: ['Sie war kalt', 'Sie war zu salzig', 'Sie war zu scharf', 'Sie war zu teuer'],
+                correct: 0
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 3: Ergänze! Ich habe mich beim Kellner _____.',
+                sentence: 'Ich habe mich beim Kellner _____.',
+                correct: ['beschwert']
+            },
+            {
+                type: 'fill',
+                question: '📖 Text 3: Ergänze! Er hat sich _____ entschuldigt.',
+                sentence: 'Er hat sich _____ entschuldigt.',
+                correct: ['dafür']
+            },
+            // 22-28: Ohne Text - Gemischte Übungen
+            {
+                type: 'mc',
+                question: '_____ kümmert er sich? — Um seine Großmutter.',
+                options: ['Um wen', 'Worum', 'An wen', 'Für wen'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: 'Ich denke oft _____ meine Kindheit.',
+                options: ['an', 'auf', 'über', 'für'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: '_____ freust du dich? — Auf meinen Geburtstag.',
+                options: ['Worauf', 'Wofür', 'Woran', 'Womit'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: 'Hast du Angst vor Hunden? — Ja, ich habe Angst _____.',
+                options: ['davor', 'davon', 'dafür', 'damit'],
+                correct: 0
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze das Reflexivpronomen!',
+                sentence: 'Du solltest _____ gesund ernähren.',
+                correct: ['dich']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze das Präpositionaladverb!',
+                sentence: 'Interessierst du dich für Sport? — Nein, _____ interessiere ich mich nicht.',
+                correct: ['dafür']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze das Fragewort!',
+                sentence: '_____ ärgerst du dich? — Über die Prüfung.',
+                correct: ['Worüber']
+            },
+            // 29-34: Satz ordnen
+            {
+                type: 'order',
+                question: 'Ordne den Satz!',
+                words: ['sich', 'Er', 'darüber', 'ärgert', 'nicht'],
+                correct: ['Er', 'ärgert', 'sich', 'nicht', 'darüber']
+            },
+            {
+                type: 'order',
+                question: 'Ordne den Satz!',
+                words: ['Worauf', 'Lust', 'dann', 'du', 'hast', '?'],
+                correct: ['Worauf', 'hast', 'du', 'dann', 'Lust', '?']
+            },
+            {
+                type: 'order',
+                question: 'Ordne den Satz!',
+                words: ['sich', 'Sie', 'sollten', 'ernähren', 'gesund'],
+                correct: ['Sie', 'sollten', 'sich', 'gesund', 'ernähren']
+            },
+            {
+                type: 'order',
+                question: 'Ordne den Satz!',
+                words: ['interessiere', 'dafür', 'Ich', 'nicht', 'mich'],
+                correct: ['Ich', 'interessiere', 'mich', 'nicht', 'dafür']
+            },
+            {
+                type: 'order',
+                question: 'Ordne den Satz!',
+                words: ['mich', 'erinnere', 'daran', 'gern', 'Ich'],
+                correct: ['Ich', 'erinnere', 'mich', 'gern', 'daran']
+            },
+            {
+                type: 'order',
+                question: 'Ordne den Satz!',
+                words: ['Fühlen', 'müde', 'Sie', 'sich', '?'],
+                correct: ['Fühlen', 'Sie', 'sich', 'müde', '?']
+            },
+            // 35-40: Person vs. Sache
+            {
+                type: 'mc',
+                question: 'Ich denke an meinen Bruder. — _____ denkst du?',
+                options: ['An wen', 'Woran', 'Worauf', 'Auf wen'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: 'Ich denke an den Urlaub. — _____ denkst du?',
+                options: ['Woran', 'An wen', 'Worauf', 'Auf wen'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: 'Sie wartet auf ihren Freund. — _____ wartet sie?',
+                options: ['Auf wen', 'Worauf', 'An wen', 'Woran'],
+                correct: 0
+            },
+            {
+                type: 'mc',
+                question: 'Er spricht mit seinem Chef. — _____ spricht er?',
+                options: ['Mit wem', 'Womit', 'Von wem', 'Wovon'],
+                correct: 0
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze!',
+                sentence: 'Bewegen Sie _____ regelmäßig!',
+                correct: ['sich']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze!',
+                sentence: '_____ freust du dich? — Auf das Wochenende.',
+                correct: ['Worauf']
+            }
+        ];
+        
+        // DIAMANT LIGA - 40 Aufgaben (Selbst schreiben)
+        const diamondTasks = [
+            // Alle Aufgaben sind Lückentexte zum selbst Schreiben
+            {
+                type: 'fill',
+                question: 'Schreibe das Reflexivpronomen!',
+                sentence: 'Ich wasche _____ jeden Morgen.',
+                correct: ['mich']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Reflexivpronomen!',
+                sentence: 'Du musst _____ beeilen!',
+                correct: ['dich']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Reflexivpronomen!',
+                sentence: 'Er zieht _____ warm an.',
+                correct: ['sich']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Reflexivpronomen!',
+                sentence: 'Wir freuen _____ auf die Ferien.',
+                correct: ['uns']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Reflexivpronomen!',
+                sentence: 'Ihr müsst _____ konzentrieren.',
+                correct: ['euch']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Reflexivpronomen!',
+                sentence: 'Sie (Pl.) verabreden _____ für Samstag.',
+                correct: ['sich']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe die Präposition!',
+                sentence: 'Ich interessiere mich _____ Musik.',
+                correct: ['für']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe die Präposition!',
+                sentence: 'Er wartet _____ den Bus.',
+                correct: ['auf']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe die Präposition!',
+                sentence: 'Sie denkt _____ ihre Familie.',
+                correct: ['an']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe die Präposition!',
+                sentence: 'Wir träumen _____ einem Haus.',
+                correct: ['von']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe die Präposition!',
+                sentence: 'Ich ärgere mich _____ den Lärm.',
+                correct: ['über']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe die Präposition!',
+                sentence: 'Sie ist zufrieden _____ ihrer Arbeit.',
+                correct: ['mit']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Präpositionaladverb!',
+                sentence: 'Interessierst du dich für Sport? — Ja, ich interessiere mich _____.',
+                correct: ['dafür']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Präpositionaladverb!',
+                sentence: 'Wir warten auf den Zug. — Wir warten schon lange _____.',
+                correct: ['darauf']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Präpositionaladverb!',
+                sentence: 'Denkst du an den Termin? — Ja, ich denke _____.',
+                correct: ['daran']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Präpositionaladverb!',
+                sentence: 'Träumst du von einer Reise? — Ja, ich träume oft _____.',
+                correct: ['davon']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Präpositionaladverb!',
+                sentence: 'Ärgerst du dich über das Wetter? — Nein, _____ ärgere ich mich nicht.',
+                correct: ['darüber']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Präpositionaladverb!',
+                sentence: 'Bist du mit dem Ergebnis zufrieden? — Ja, _____ bin ich zufrieden.',
+                correct: ['damit']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Fragewort!',
+                sentence: '_____ interessierst du dich? — Für Fußball.',
+                correct: ['Wofür']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Fragewort!',
+                sentence: '_____ wartest du? — Auf meine Freundin.',
+                correct: ['Worauf', 'Auf wen']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Fragewort!',
+                sentence: '_____ denkst du? — An meinen Urlaub.',
+                correct: ['Woran']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Fragewort!',
+                sentence: '_____ träumst du? — Von einer Villa.',
+                correct: ['Wovon']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Fragewort!',
+                sentence: '_____ ärgerst du dich? — Über die Musik.',
+                correct: ['Worüber']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das Fragewort!',
+                sentence: '_____ bist du zufrieden? — Mit meinem Job.',
+                correct: ['Womit']
+            },
+            {
+                type: 'fill',
+                question: 'Bei Personen: Schreibe das Fragewort!',
+                sentence: '_____ wartest du? — Auf meinen Bruder.',
+                correct: ['Auf wen']
+            },
+            {
+                type: 'fill',
+                question: 'Bei Personen: Schreibe das Fragewort!',
+                sentence: '_____ denkst du? — An meine Oma.',
+                correct: ['An wen']
+            },
+            {
+                type: 'fill',
+                question: 'Bei Personen: Schreibe das Fragewort!',
+                sentence: '_____ telefonierst du? — Mit meiner Schwester.',
+                correct: ['Mit wem']
+            },
+            {
+                type: 'fill',
+                question: 'Bei Personen: Schreibe das Fragewort!',
+                sentence: '_____ erzählst du? — Von meinem Chef.',
+                correct: ['Von wem']
+            },
+            {
+                type: 'fill',
+                question: 'Bei Personen: Schreibe das Fragewort!',
+                sentence: '_____ ärgerst du dich? — Über meinen Nachbarn.',
+                correct: ['Über wen']
+            },
+            {
+                type: 'fill',
+                question: 'Bei Personen: Schreibe das Fragewort!',
+                sentence: '_____ hast du Angst? — Vor meinem Lehrer.',
+                correct: ['Vor wem']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das ganze Verb!',
+                sentence: 'Ich _____ mich für Sprachen. (interessieren)',
+                correct: ['interessiere']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das ganze Verb!',
+                sentence: 'Du _____ dich zu sehr. (aufregen)',
+                correct: ['regst']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das ganze Verb!',
+                sentence: 'Er _____ sich nicht gut. (fühlen)',
+                correct: ['fühlt']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das ganze Verb!',
+                sentence: 'Wir _____ uns für 18 Uhr. (verabreden)',
+                correct: ['verabreden']
+            },
+            {
+                type: 'fill',
+                question: 'Schreibe das ganze Verb!',
+                sentence: 'Ihr _____ euch über alles. (beschweren)',
+                correct: ['beschwert']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze das Reflexivpronomen!',
+                sentence: 'Ich freue _____ über das Geschenk.',
+                correct: ['mich']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze die Präposition!',
+                sentence: 'Ich freue mich _____ das Geschenk.',
+                correct: ['über', 'auf']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze das Reflexivpronomen!',
+                sentence: 'Er kümmert _____ um seine Kinder.',
+                correct: ['sich']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze die Präposition!',
+                sentence: 'Er kümmert sich _____ seine Kinder.',
+                correct: ['um']
+            },
+            {
+                type: 'fill',
+                question: 'Kompletter Satz: Ergänze beide Wörter! (Reflexiv + Adverb)',
+                sentence: 'Wir erinnern _____ gern daran.',
+                correct: ['uns']
+            },
+            {
+                type: 'fill',
+                question: 'Ergänze das Präpositionaladverb!',
+                sentence: 'Wir erinnern uns gern _____.',
+                correct: ['daran']
+            },
+            {
+                type: 'fill',
+                question: 'Kompletter Satz: Ergänze!',
+                sentence: '_____ erinnerst du dich? — An meinen ersten Schultag.',
+                correct: ['Woran']
+            },
+            {
+                type: 'fill',
+                question: 'Kompletter Satz: Ergänze!',
+                sentence: '_____ hast du Lust? — Auf Pizza!',
+                correct: ['Worauf']
+            }
+        ];
+        
+        // ========== GAME FUNCTIONS ==========
+        
+        function startGame(liga) {
+            playerName = document.getElementById('playerName').value.trim() || 'Spieler';
+            currentLiga = liga;
+            currentTaskIndex = 0;
+            completedTasks = 0;
+            totalPoints = 0;
+            attempts = {};
+            
+            // Load tasks based on liga
+            let baseTasks;
+            if (liga === 'silver') {
+                baseTasks = [...silverTasks];
+            } else if (liga === 'gold') {
+                baseTasks = [...goldTasks];
+            } else {
+                baseTasks = [...diamondTasks];
+            }
+            
+            // Separate text tasks and regular tasks
+            let textGroups = []; // Text + ihre Fragen
+            let standaloneTasks = []; // Aufgaben ohne Text
+            
+            let currentTextGroup = null;
+            
+            for (let i = 0; i < baseTasks.length; i++) {
+                const task = baseTasks[i];
+                
+                if (task.type === 'text') {
+                    // Neuer Text beginnt
+                    if (currentTextGroup) {
+                        textGroups.push(currentTextGroup);
+                    }
+                    currentTextGroup = { text: task, questions: [] };
+                } else if (currentTextGroup && task.question && task.question.includes('📖')) {
+                    // Frage gehört zum aktuellen Text
+                    currentTextGroup.questions.push(task);
+                } else {
+                    // Standalone Aufgabe
+                    if (currentTextGroup) {
+                        textGroups.push(currentTextGroup);
+                        currentTextGroup = null;
+                    }
+                    standaloneTasks.push(task);
+                }
+            }
+            if (currentTextGroup) {
+                textGroups.push(currentTextGroup);
+            }
+            
+            // Shuffle text groups
+            shuffleArray(textGroups);
+            
+            // Shuffle standalone tasks mit Abwechslung
+            standaloneTasks = shuffleWithVariety(standaloneTasks);
+            
+            // Kombiniere: Erst alle Text-Gruppen, dann standalone
+            tasks = [];
+            
+            // Text-Gruppen einfügen (Text + seine Fragen bleiben zusammen)
+            for (const group of textGroups) {
+                tasks.push(group.text);
+                // Fragen innerhalb der Gruppe auch mischen
+                shuffleArray(group.questions);
+                tasks.push(...group.questions);
+            }
+            
+            // Standalone Tasks dazwischen verteilen
+            const finalTasks = [];
+            let standaloneIndex = 0;
+            let taskIndex = 0;
+            
+            // Verteile standalone Tasks zwischen den Text-Gruppen
+            const insertPoints = Math.ceil(standaloneTasks.length / (textGroups.length + 1));
+            
+            for (let i = 0; i < tasks.length; i++) {
+                finalTasks.push(tasks[i]);
+                
+                // Nach jeder Text-Gruppe ein paar standalone Tasks einfügen
+                if (tasks[i].type !== 'text' && 
+                    (i + 1 >= tasks.length || tasks[i + 1].type === 'text')) {
+                    // Ende einer Gruppe erreicht
+                    for (let j = 0; j < insertPoints && standaloneIndex < standaloneTasks.length; j++) {
+                        finalTasks.push(standaloneTasks[standaloneIndex++]);
+                    }
+                }
+            }
+            
+            // Restliche standalone Tasks anhängen
+            while (standaloneIndex < standaloneTasks.length) {
+                finalTasks.push(standaloneTasks[standaloneIndex++]);
+            }
+            
+            tasks = finalTasks;
+            
+            showScreen('gameScreen');
+            loadTask();
+        }
+        
+        // Shuffle mit Abwechslung - verhindert gleiche Typen hintereinander
+        function shuffleWithVariety(arr) {
+            if (arr.length <= 1) return arr;
+            
+            // Gruppiere nach Typ
+            const byType = {};
+            for (const task of arr) {
+                const type = task.type;
+                if (!byType[type]) byType[type] = [];
+                byType[type].push(task);
+            }
+            
+            // Shuffle jede Gruppe
+            for (const type in byType) {
+                shuffleArray(byType[type]);
+            }
+            
+            // Verteile abwechselnd
+            const result = [];
+            const types = Object.keys(byType);
+            let lastType = null;
+            
+            while (result.length < arr.length) {
+                // Finde Typ mit meisten verbleibenden Tasks, der nicht der letzte war
+                let bestType = null;
+                let bestCount = 0;
+                
+                for (const type of types) {
+                    if (byType[type].length > 0) {
+                        if (type !== lastType && byType[type].length > bestCount) {
+                            bestType = type;
+                            bestCount = byType[type].length;
+                        }
+                    }
+                }
+                
+                // Falls kein anderer Typ verfügbar, nimm irgendeinen
+                if (!bestType) {
+                    for (const type of types) {
+                        if (byType[type].length > 0) {
+                            bestType = type;
+                            break;
+                        }
+                    }
+                }
+                
+                if (bestType && byType[bestType].length > 0) {
+                    result.push(byType[bestType].shift());
+                    lastType = bestType;
+                } else {
+                    break;
+                }
+            }
+            
+            return result;
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            // Home-Button nur im Spiel zeigen
+            const homeBtn = document.getElementById('homeBtn');
+            if (screenId === 'gameScreen') {
+                homeBtn.classList.remove('hidden');
+            } else {
+                homeBtn.classList.add('hidden');
+            }
+        }
+        
+        function loadTask() {
+            const task = tasks[currentTaskIndex];
+            const taskCard = document.getElementById('taskCard');
+            
+            // Count only non-text tasks for progress
+            const totalNonTextTasks = tasks.filter(t => t.type !== 'text').length;
+            const completedNonText = completedTasks;
+            const taskNum = completedNonText + 1;
+            
+            // Speichere Text für späteren Rückblick
+            if (task.type === 'text') {
+                currentText = { title: task.title, text: task.text };
+            }
+            
+            // Update progress (only for non-text tasks)
+            if (task.type === 'text') {
+                document.getElementById('progressText').textContent = `📖 Text lesen...`;
+            } else {
+                document.getElementById('progressText').textContent = `Aufgabe ${taskNum} von ${totalNonTextTasks}`;
+            }
+            document.getElementById('progressBar').style.width = `${(completedNonText / totalNonTextTasks) * 100}%`;
+            
+            // Generate task HTML
+            let html = `
+                <div class="task-header">
+                    <span class="task-number">${task.type === 'text' ? '📖' : taskNum + '/' + totalNonTextTasks}</span>
+                    <span class="task-type">${getTaskType(task.type)}</span>
+                </div>
+            `;
+            
+            if (task.title) {
+                html += `<div class="task-question">${task.title}</div>`;
+            } else {
+                html += `<div class="task-question">${task.question}</div>`;
+            }
+            
+            // Zeige "Text anzeigen" Button bei Fragen zum Text (erkennbar an 📖 im Question)
+            if (task.type !== 'text' && currentText && task.question && task.question.includes('📖')) {
+                html += `<button class="show-text-btn" onclick="showTextModal()">📖 Text nochmal lesen</button>`;
+            }
+            
+            if (task.hint && currentLiga === 'silver') {
+                html += `<div class="task-hint">💡 ${task.hint}</div>`;
+            }
+            
+            html += generateTaskContent(task);
+            html += `
+                <div id="feedback" class="feedback"></div>
+                <button id="nextBtn" class="next-btn" onclick="nextTask()">Weiter →</button>
+            `;
+            
+            taskCard.innerHTML = html;
+            
+            // Reset state for matching
+            matchSelected = null;
+            matchedPairs = 0;
+        }
+        
+        function getTaskType(type) {
+            const types = {
+                'text': '📖 Text lesen',
+                'mc': '🎯 Multiple Choice',
+                'fill': '✏️ Lückentext',
+                'fillbank': '🏦 Wortbank',
+                'order': '🔢 Ordnen',
+                'match': '🔗 Zuordnung'
+            };
+            return types[type] || '📝 Aufgabe';
+        }
+        
+        function generateTaskContent(task) {
+            switch (task.type) {
+                case 'text':
+                    return generateText(task);
+                case 'mc':
+                    return generateMC(task);
+                case 'fill':
+                    return generateFill(task);
+                case 'fillbank':
+                    return generateFillBank(task);
+                case 'order':
+                    return generateOrder(task);
+                case 'match':
+                    return generateMatch(task);
+                default:
+                    return '';
+            }
+        }
+        
+        function generateText(task) {
+            let html = `
+                <div class="text-box">
+                    <div class="text-content">${task.text}</div>
+                </div>
+                <div class="text-instruction">${task.instruction}</div>
+                <button class="submit-btn" onclick="continueFromText()">Verstanden! Weiter →</button>
+            `;
+            return html;
+        }
+        
+        function continueFromText() {
+            // Text tasks don't give points and don't count toward 40 tasks
+            document.getElementById('nextBtn').classList.add('show');
+            document.querySelector('.submit-btn').disabled = true;
+            document.getElementById('feedback').innerHTML = '📖 Gut! Jetzt kommen die Fragen zum Text.';
+            document.getElementById('feedback').className = 'feedback show correct';
+        }
+        
+        function generateMC(task) {
+            let html = '<div class="mc-options">';
+            const shuffledOptions = task.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+            shuffleArray(shuffledOptions);
+            
+            shuffledOptions.forEach((opt, idx) => {
+                html += `<button class="mc-btn" onclick="checkMC(this, ${opt.originalIndex}, ${task.correct})">${opt.text}</button>`;
+            });
+            html += '</div>';
+            return html;
+        }
+        
+        function checkMC(btn, selected, correct) {
+            const buttons = document.querySelectorAll('.mc-btn');
+            const isCorrect = selected === correct;
+            const taskKey = currentTaskIndex;
+            
+            attempts[taskKey] = (attempts[taskKey] || 0) + 1;
+            
+            if (isCorrect) {
+                btn.classList.add('correct');
+                buttons.forEach(b => b.classList.add('disabled'));
+                showFeedback(true, attempts[taskKey]);
+            } else {
+                btn.classList.add('wrong');
+                btn.classList.add('disabled');
+                if (attempts[taskKey] >= 2) {
+                    // Show correct answer
+                    buttons.forEach(b => {
+                        const bIdx = parseInt(b.getAttribute('onclick').match(/checkMC\(this, (\d+)/)[1]);
+                        if (bIdx === correct) b.classList.add('correct');
+                        b.classList.add('disabled');
+                    });
+                    showFeedback(false, attempts[taskKey]);
+                }
+            }
+        }
+        
+        function generateFill(task) {
+            let html = `<div class="fill-sentence">${task.sentence.replace('_____', '<input type="text" class="fill-input" id="fillInput" onkeypress="if(event.key===\'Enter\')checkFill()">')}</div>`;
+            html += '<button class="submit-btn" onclick="checkFill()">Prüfen</button>';
+            return html;
+        }
+        
+        function checkFill() {
+            const input = document.getElementById('fillInput');
+            const answer = input.value.trim().toLowerCase();
+            const task = tasks[currentTaskIndex];
+            const correct = task.correct.map(c => c.toLowerCase());
+            const isCorrect = correct.some(c => answer === c || answer === c.replace(' ', ''));
+            const taskKey = currentTaskIndex;
+            
+            attempts[taskKey] = (attempts[taskKey] || 0) + 1;
+            
+            if (isCorrect) {
+                input.classList.add('correct');
+                input.disabled = true;
+                document.querySelector('.submit-btn').disabled = true;
+                showFeedback(true, attempts[taskKey]);
+            } else {
+                input.classList.add('wrong');
+                setTimeout(() => input.classList.remove('wrong'), 500);
+                if (attempts[taskKey] >= 2) {
+                    input.value = task.correct[0];
+                    input.classList.add('correct');
+                    input.disabled = true;
+                    document.querySelector('.submit-btn').disabled = true;
+                    showFeedback(false, attempts[taskKey]);
+                }
+            }
+        }
+        
+        function generateFillBank(task) {
+            let html = `<div class="fill-sentence">${task.sentence.replace('_____', '<span id="blankSpot" class="fill-input" style="display:inline-block;min-width:100px;cursor:pointer;" onclick="clearBlank()">___</span>')}</div>`;
+            html += '<div class="word-bank">';
+            const shuffledWords = [...task.words];
+            shuffleArray(shuffledWords);
+            shuffledWords.forEach(word => {
+                html += `<button class="word-chip" onclick="selectWord(this, '${word}')">${word}</button>`;
+            });
+            html += '</div>';
+            html += '<button class="submit-btn" onclick="checkFillBank()">Prüfen</button>';
+            return html;
+        }
+        
+        function selectWord(btn, word) {
+            document.querySelectorAll('.word-chip').forEach(c => c.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('blankSpot').textContent = word;
+            document.getElementById('blankSpot').dataset.word = word;
+        }
+        
+        function clearBlank() {
+            document.querySelectorAll('.word-chip').forEach(c => c.classList.remove('selected'));
+            document.getElementById('blankSpot').textContent = '___';
+            document.getElementById('blankSpot').dataset.word = '';
+        }
+        
+        function checkFillBank() {
+            const blank = document.getElementById('blankSpot');
+            const answer = blank.dataset.word || '';
+            const task = tasks[currentTaskIndex];
+            const isCorrect = answer.toLowerCase() === task.correct.toLowerCase();
+            const taskKey = currentTaskIndex;
+            
+            attempts[taskKey] = (attempts[taskKey] || 0) + 1;
+            
+            if (isCorrect) {
+                blank.style.borderColor = '#00ff88';
+                blank.style.background = 'rgba(0, 255, 136, 0.2)';
+                document.querySelector('.submit-btn').disabled = true;
+                showFeedback(true, attempts[taskKey]);
+            } else {
+                blank.style.borderColor = '#ff4757';
+                blank.style.background = 'rgba(255, 71, 87, 0.2)';
+                setTimeout(() => {
+                    blank.style.borderColor = '';
+                    blank.style.background = '';
+                }, 500);
+                if (attempts[taskKey] >= 2) {
+                    blank.textContent = task.correct;
+                    blank.style.borderColor = '#00ff88';
+                    blank.style.background = 'rgba(0, 255, 136, 0.2)';
+                    document.querySelector('.submit-btn').disabled = true;
+                    showFeedback(false, attempts[taskKey]);
+                }
+            }
+        }
+        
+        function generateOrder(task) {
+            let html = '<div class="word-bank" id="wordBank">';
+            const shuffledWords = [...task.words];
+            shuffleArray(shuffledWords);
+            shuffledWords.forEach(word => {
+                html += `<button class="word-chip" onclick="addToAnswer(this, '${word}')">${word}</button>`;
+            });
+            html += '</div>';
+            html += '<div class="answer-area" id="answerArea"></div>';
+            html += '<button class="submit-btn" onclick="checkOrder()">Prüfen</button>';
+            return html;
+        }
+        
+        function addToAnswer(btn, word) {
+            btn.classList.add('selected');
+            const answerArea = document.getElementById('answerArea');
+            const chip = document.createElement('button');
+            chip.className = 'answer-chip';
+            chip.textContent = word;
+            chip.onclick = () => removeFromAnswer(chip, btn, word);
+            answerArea.appendChild(chip);
+        }
+        
+        function removeFromAnswer(chip, originalBtn, word) {
+            chip.remove();
+            originalBtn.classList.remove('selected');
+        }
+        
+        function checkOrder() {
+            const answerArea = document.getElementById('answerArea');
+            const chips = answerArea.querySelectorAll('.answer-chip');
+            const answer = Array.from(chips).map(c => c.textContent);
+            const task = tasks[currentTaskIndex];
+            const isCorrect = JSON.stringify(answer) === JSON.stringify(task.correct);
+            const taskKey = currentTaskIndex;
+            
+            attempts[taskKey] = (attempts[taskKey] || 0) + 1;
+            
+            if (isCorrect) {
+                chips.forEach(c => c.style.background = 'linear-gradient(135deg, #00ff88, #00d4ff)');
+                document.querySelector('.submit-btn').disabled = true;
+                showFeedback(true, attempts[taskKey]);
+            } else {
+                answerArea.style.borderColor = '#ff4757';
+                setTimeout(() => answerArea.style.borderColor = '', 500);
+                if (attempts[taskKey] >= 2) {
+                    answerArea.innerHTML = '';
+                    task.correct.forEach(w => {
+                        const chip = document.createElement('button');
+                        chip.className = 'answer-chip';
+                        chip.textContent = w;
+                        chip.style.background = 'linear-gradient(135deg, #00ff88, #00d4ff)';
+                        answerArea.appendChild(chip);
+                    });
+                    document.querySelector('.submit-btn').disabled = true;
+                    showFeedback(false, attempts[taskKey]);
+                }
+            }
+        }
+        
+        function generateMatch(task) {
+            let html = '<div class="match-container">';
+            html += '<div class="match-column" id="leftCol">';
+            task.left.forEach((item, idx) => {
+                html += `<div class="match-item" data-idx="${idx}" data-side="left" onclick="selectMatch(this)">${item}</div>`;
+            });
+            html += '</div>';
+            html += '<div class="match-column" id="rightCol">';
+            const shuffledRight = task.right.map((item, idx) => ({ text: item, idx }));
+            shuffleArray(shuffledRight);
+            shuffledRight.forEach(item => {
+                html += `<div class="match-item" data-idx="${item.idx}" data-side="right" onclick="selectMatch(this)">${item.text}</div>`;
+            });
+            html += '</div></div>';
+            return html;
+        }
+        
+        function selectMatch(el) {
+            if (el.classList.contains('matched')) return;
+            
+            const task = tasks[currentTaskIndex];
+            const side = el.dataset.side;
+            const idx = parseInt(el.dataset.idx);
+            
+            if (!matchSelected) {
+                el.classList.add('selected');
+                matchSelected = { el, side, idx };
+            } else {
+                if (matchSelected.side === side) {
+                    matchSelected.el.classList.remove('selected');
+                    el.classList.add('selected');
+                    matchSelected = { el, side, idx };
+                } else {
+                    // Check match
+                    const leftIdx = side === 'left' ? idx : matchSelected.idx;
+                    const rightIdx = side === 'right' ? idx : matchSelected.idx;
+                    const isCorrect = task.pairs.some(p => p[0] === leftIdx && p[1] === rightIdx);
+                    
+                    if (isCorrect) {
+                        el.classList.add('matched');
+                        el.classList.remove('selected');
+                        matchSelected.el.classList.add('matched');
+                        matchSelected.el.classList.remove('selected');
+                        matchedPairs++;
+                        
+                        if (matchedPairs === task.pairs.length) {
+                            const taskKey = currentTaskIndex;
+                            attempts[taskKey] = attempts[taskKey] || 1;
+                            showFeedback(true, attempts[taskKey]);
+                        }
+                    } else {
+                        el.classList.add('wrong-match');
+                        matchSelected.el.classList.add('wrong-match');
+                        setTimeout(() => {
+                            el.classList.remove('wrong-match', 'selected');
+                            matchSelected.el.classList.remove('wrong-match', 'selected');
+                            matchSelected = null;
+                        }, 500);
+                        
+                        const taskKey = currentTaskIndex;
+                        attempts[taskKey] = (attempts[taskKey] || 0) + 1;
+                        return;
+                    }
+                    matchSelected = null;
+                }
+            }
+        }
+        
+        function showFeedback(correct, attemptCount) {
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (correct) {
+                const points = attemptCount === 1 ? 2 : 1;
+                totalPoints += points;
+                feedback.innerHTML = `✅ Richtig! +${points} Punkt${points > 1 ? 'e' : ''}`;
+                feedback.className = 'feedback show correct';
+            } else {
+                feedback.innerHTML = '❌ Leider falsch. Sieh dir die Lösung an.';
+                feedback.className = 'feedback show wrong';
+            }
+            
+            nextBtn.classList.add('show');
+            completedTasks++;
+        }
+        
+        function nextTask() {
+            currentTaskIndex++;
+            
+            // Count non-text tasks
+            const totalNonTextTasks = tasks.filter(t => t.type !== 'text').length;
+            
+            if (completedTasks >= totalNonTextTasks) {
+                showCertificate();
+            } else {
+                if (currentTaskIndex >= tasks.length) {
+                    currentTaskIndex = 0;
+                }
+                loadTask();
+            }
+        }
+        
+        function showCertificate() {
+            showScreen('certScreen');
+            
+            const certCard = document.getElementById('certCard');
+            const ligaNames = { silver: 'Silber', gold: 'Gold', diamond: 'Diamant' };
+            const ligaIcons = { silver: '🥈', gold: '🥇', diamond: '💎' };
+            
+            const totalNonTextTasks = tasks.filter(t => t.type !== 'text').length;
+            const maxPoints = totalNonTextTasks * 2;
+            const percentage = Math.round((totalPoints / maxPoints) * 100);
+            const passed = percentage >= 75;
+            
+            certCard.className = `cert-card ${currentLiga}`;
+            document.getElementById('certIcon').textContent = passed ? ligaIcons[currentLiga] : '😢';
+            document.getElementById('certName').textContent = playerName;
+            document.getElementById('certPoints').textContent = totalPoints;
+            document.getElementById('certPercent').textContent = percentage + '%';
+            document.getElementById('certLiga').textContent = ligaNames[currentLiga];
+            document.getElementById('certTasks').textContent = totalNonTextTasks;
+            document.getElementById('certDate').textContent = new Date().toLocaleDateString('de-DE');
+            
+            // Update title based on pass/fail
+            document.querySelector('.cert-title').textContent = passed ? 'Spieltag 3 bestanden! ✅' : 'Leider nicht bestanden ❌';
+            document.querySelector('.cert-title').style.color = passed ? '#00ff88' : '#ff4757';
+            
+            // Show/hide download button
+            document.querySelector('.download-btn').style.display = passed ? 'block' : 'none';
+            
+            // Add retry message if failed
+            if (!passed) {
+                document.querySelector('.restart-btn').textContent = '🔄 Nochmal versuchen (75% benötigt)';
+            }
+        }
+        
+        function downloadCertificate() {
+            const canvas = document.getElementById('certCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const totalNonTextTasks = tasks.filter(t => t.type !== 'text').length;
+            const maxPoints = totalNonTextTasks * 2;
+            const percentage = Math.round((totalPoints / maxPoints) * 100);
+            
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, 800, 600);
+            if (currentLiga === 'silver') {
+                gradient.addColorStop(0, '#2d3436');
+                gradient.addColorStop(1, '#636e72');
+            } else if (currentLiga === 'gold') {
+                gradient.addColorStop(0, '#2d3436');
+                gradient.addColorStop(1, '#6c5ce7');
+            } else {
+                gradient.addColorStop(0, '#0f0c29');
+                gradient.addColorStop(1, '#302b63');
+            }
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 800, 600);
+            
+            // Border
+            ctx.strokeStyle = currentLiga === 'silver' ? '#c0c0c0' : currentLiga === 'gold' ? '#ffd700' : '#00d4ff';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(20, 20, 760, 560);
+            
+            // Title
+            ctx.font = 'bold 36px Nunito, sans-serif';
+            ctx.fillStyle = '#00ff88';
+            ctx.textAlign = 'center';
+            ctx.fillText('🏆 SPIELTAG 3 BESTANDEN 🏆', 400, 80);
+            
+            // Subtitle
+            ctx.font = '24px Nunito, sans-serif';
+            ctx.fillStyle = '#a0a0c0';
+            ctx.fillText('Reden wir darüber!', 400, 120);
+            
+            // Icon
+            const icons = { silver: '🥈', gold: '🥇', diamond: '💎' };
+            ctx.font = '80px Arial';
+            ctx.fillText(icons[currentLiga], 400, 220);
+            
+            // Name
+            ctx.font = 'bold 40px Nunito, sans-serif';
+            ctx.fillStyle = '#00d4ff';
+            ctx.fillText(playerName, 400, 290);
+            
+            // Stats
+            ctx.font = '20px Nunito, sans-serif';
+            ctx.fillStyle = '#fff';
+            ctx.fillText(`Liga: ${currentLiga === 'silver' ? 'Silber' : currentLiga === 'gold' ? 'Gold' : 'Diamant'}`, 400, 350);
+            ctx.fillText(`Punkte: ${totalPoints} / ${maxPoints} (${percentage}%)`, 400, 390);
+            ctx.fillText(`Bestanden mit mindestens 75%`, 400, 430);
+            ctx.fillText(`Aufgaben: ${totalNonTextTasks}`, 400, 470);
+            
+            // Date
+            ctx.font = '16px Nunito, sans-serif';
+            ctx.fillStyle = '#a0a0c0';
+            ctx.fillText(`Datum: ${new Date().toLocaleDateString('de-DE')}`, 400, 530);
+            
+            // Footer
+            ctx.fillText('Reflexive Verben • Verben mit Präpositionen • Präpositionaladverbien', 400, 560);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = `Spieltag3_${playerName}_${currentLiga}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        function restartGame() {
+            document.getElementById('homeBtn').classList.add('hidden');
+            showScreen('startScreen');
+        }
+        
+        function confirmHome() {
+            if (confirm('Wirklich abbrechen? Dein Fortschritt geht verloren!')) {
+                restartGame();
+            }
+        }
+    </script>
+</body>
+</html>
